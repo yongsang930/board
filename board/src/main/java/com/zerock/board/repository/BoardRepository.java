@@ -13,14 +13,22 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("select b, w from Board b left join b.writer w where b.bno =:bno")
     Object getBoardWithWriter(@Param("bno") Long bno);
 
-    @Query("select b, r from Board b left join Reply r on r.board = b where b.bno =:bno")
+    @Query("SELECT b, r FROM Board b LEFT JOIN Reply r ON r.board = b WHERE b.bno = :bno")
     List<Object[]> getBoardWithReply(@Param("bno") Long bno);
 
-    @Query(value = "select b, w, count(r) " + " from Board b " + " left join b.writer w " + " left join Reply r on r.board = b " + " group by b ", countQuery = "select count(b) from Board b")
+    @Query(value = "SELECT b, w, count(r) " +
+            " FROM Board b " +
+            " LEFT JOIN b.writer w " +
+            " LEFT JOIN Reply r ON r.board = b " +
+            " GROUP BY b",
+            countQuery = "SELECT count(b) FROM Board b")
     Page<Object[]> getBoardWithReplyCount(Pageable pageable);
-    //목록화면에 필요한 데이터
 
-    @Query("select b, w, count(r) " + " from Board b left join b.writer w " + " left outer join Reply r on r.board = b" + " where b.bno = :bno")
+
+    @Query("SELECT b, w, count(r) " +
+            " FROM Board b LEFT JOIN b.writer w " +
+            " LEFT OUTER JOIN Reply r ON r.board = b" +
+            " WHERE b.bno = :bno")
     Object getBoardByBno(@Param("bno") Long bno);
 
 }

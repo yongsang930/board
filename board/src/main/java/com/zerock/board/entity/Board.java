@@ -9,9 +9,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-// ToString은 항상 exclude
 @ToString(exclude = "writer")
 public class Board extends BaseEntity {
+// ToString은 항상 exclude
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +25,12 @@ public class Board extends BaseEntity {
     // 명시적으로 Lazy 로딩 지정
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
+
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
+    public void changeContent(String content){
+        this.content = content;
+    }
 }
